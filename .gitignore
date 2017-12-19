@@ -1,0 +1,5 @@
+ContentAuthorizator/bin
+ContentAuthorizator/obj
+ContentAuthorizator/out
+.*
+!/.gitignore
