@@ -35,7 +35,7 @@ namespace ContentAuthorizator
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
