@@ -39,7 +39,7 @@ else
 fi
 
 echo "Running container..." 
-docker run  --network=localnetwork -p 4000:4000  --name $PROJECT $PROJECT 
+docker run  --network=localnetwork -p 5555:5555 --name $PROJECT $PROJECT 
 
 if [ ! -z $RUNNING ]
 then
