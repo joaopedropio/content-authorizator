@@ -17,13 +17,13 @@ namespace ContentAuthorizator.Controllers
         [Route("[controller]/[action]")]
         public IActionResult Add()
         {
-            var header = Request.Headers.FirstOrDefault(h => h.Key == "auth");
+            var value = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
 
-            if (header.Value.ToString() == "") return StatusCode(401);
+            if (value == string.Empty) return StatusCode(400);
 
-            if (_auths.Contains(header.Value).ToString() != string.Empty)
+            if (_auths.Contains(value).ToString() != string.Empty)
             {
-                _auths.Add(header.Value);
+                _auths.Add(value);
                 return StatusCode(200);
             }
             else
@@ -35,11 +35,11 @@ namespace ContentAuthorizator.Controllers
         [Route("[controller]")]
         public IActionResult Index()
         {
-            var header = Request.Headers.FirstOrDefault(h => h.Key == "auth");
+            var value = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
             
-            if (header.Value.ToString() == string.Empty) return StatusCode(401);
+            if (value == string.Empty) return StatusCode(401);
 
-            return StatusCode(_auths.Contains(header.Value) ? 200 : 403);
+            return StatusCode(_auths.Contains(value) ? 200 : 403);
         }
     }
 }
