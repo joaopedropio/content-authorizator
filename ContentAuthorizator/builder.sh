@@ -7,7 +7,7 @@ PROJECT="content_authorizator"
 
 CONTAINER=$(docker ps -a --filter "name=$PROJECT" -q);
 IMAGE=$(docker images ${PROJECT} -q);
-NETWORK=$(docker network ls --filter "name=$localnetwork" -q);
+NETWORK=$(docker network ls --filter "name=localnetwork" -q);
 RUNNING=$(docker ps --filter "name=$PROJECT" -q);
 
 if [ ! -z $CONTAINER ]
