@@ -1,6 +1,13 @@
 language: csharp
+
 mono: none
+
 dotnet: 2.0.0
+
+services:
+  - docker
+
 script:
-  - dotnet restore
-  - dotnet build 
+  - docker build -t joaopio/content-authorizator
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push joaopio/content-authorizator
