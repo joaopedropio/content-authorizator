@@ -14,32 +14,53 @@ namespace ContentAuthorizator.Controllers
             _auths = auths;
         }
 
-        [Route("[controller]/[action]")]
-        public IActionResult Add()
-        {
-            var value = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
-
-            if (value == string.Empty) return StatusCode(400);
-
-            if (_auths.Contains(value).ToString() != string.Empty)
-            {
-                _auths.Add(value);
-                return StatusCode(200);
-            }
-            else
-            {
-                return StatusCode(403);
-            }
-        }
-
+        [HttpGet]
         [Route("[controller]")]
         public IActionResult Index()
         {
-            var value = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
+            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
             
-            if (value == string.Empty) return StatusCode(401);
+            if (authorization == string.Empty) return StatusCode(401);
 
-            return StatusCode(_auths.Contains(value) ? 200 : 403);
+            return StatusCode(_auths.Contains(authorization) ? 200 : 403);
+        }
+
+        [HttpPost]
+        [Route("[controller]")]
+        public IActionResult Add()
+        {
+            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
+
+            if (authorization == string.Empty) return StatusCode(400);
+
+            if (_auths.Contains(authorization))
+            {
+                return StatusCode(409);
+            }
+            else
+            {
+                _auths.Add(authorization);
+                return StatusCode(201);
+            }
+        }
+
+        [HttpDelete]
+        [Route("[controller]")]
+        public IActionResult Delete() 
+        {
+            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
+            
+            if (authorization == string.Empty) return StatusCode(400);
+
+            if (_auths.Contains(authorization))
+            {
+                _auths.Remove(authorization);
+                return StatusCode(204);
+            } 
+            else
+            {
+                return StatusCode(404);
+            }
         }
     }
 }
