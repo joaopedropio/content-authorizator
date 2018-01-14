@@ -8,6 +8,6 @@ services:
   - docker
 
 script:
-  - docker build -t joaopio/content-authorizator
+  - docker build -t joaopio/content-authorizator .
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - docker push joaopio/content-authorizator
