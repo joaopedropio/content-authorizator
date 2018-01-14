@@ -14,13 +14,18 @@ namespace ContentAuthorizator
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls("http://*:5555")
+            var configuration = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
                 .Build();
+
+            var domain = configuration.GetValue<string>("DOMAIN") ?? "*";
+            var port = configuration.GetValue<string>("PORT") ?? "5000";
+
+            var web = WebHost.CreateDefaultBuilder()
+                .UseStartup<Startup>()
+                .UseUrls("http://" + domain + ":" + port)
+                .Build();
+            web.Run();
+        }
     }
 }

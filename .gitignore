@@ -1,5 +1,6 @@
-ContentAuthorizator/bin
-ContentAuthorizator/obj
-ContentAuthorizator/out
+bin
+obj
+out
 .*
 !/.gitignore
+!/.travis.yml
