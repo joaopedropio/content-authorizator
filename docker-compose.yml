@@ -1,0 +1,12 @@
+version: '3'
+services:
+  contentauthorizator:
+    image: "joaopio/content-authorizator"
+    ports:
+      - "5000:5000"
+  nginx:
+    image: "nginx"
+    ports:
+      - "4000:80"
+    volumes:
+      - /volumes/content-authorizator/ca-nginx/:/etc/nginx/
