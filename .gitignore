@@ -1,6 +1,4 @@
 bin
 obj
 out
-.*
-!/.gitignore
-!/.travis.yml
+.vscode

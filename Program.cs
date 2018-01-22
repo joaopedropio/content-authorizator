@@ -18,8 +18,8 @@ namespace ContentAuthorizator
                 .AddEnvironmentVariables()
                 .Build();
 
-            var domain = configuration.GetValue<string>("DOMAIN") ?? "*";
-            var port = configuration.GetValue<string>("PORT") ?? "5000";
+            var domain = configuration.GetValue<string>("API_DOMAIN") ?? "*";
+            var port = configuration.GetValue<string>("API_PORT") ?? "5000";
 
             var web = WebHost.CreateDefaultBuilder()
                 .UseStartup<Startup>()
