@@ -18,27 +18,27 @@ namespace ContentAuthorizator.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
+            var auth = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
             
-            if (authorization == string.Empty) return StatusCode(401);
+            if (auth == string.Empty) return StatusCode(401);
 
-            return StatusCode(_auths.Contains(authorization) ? 200 : 403);
+            return StatusCode(_auths.Contains(auth) ? 200 : 403);
         }
 
         [HttpPost]
         public IActionResult Add()
         {
-            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
+            var auth = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
 
-            if (authorization == string.Empty) return StatusCode(400);
+            if (auth == string.Empty) return StatusCode(400);
 
-            if (_auths.Contains(authorization))
+            if (_auths.Contains(auth))
             {
                 return StatusCode(409);
             }
             else
             {
-                _auths.Add(authorization);
+                _auths.Add(auth);
                 return StatusCode(201);
             }
         }
@@ -46,13 +46,13 @@ namespace ContentAuthorizator.Controllers
         [HttpDelete]
         public IActionResult Delete() 
         {
-            var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
+            var auth= Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
             
-            if (authorization == string.Empty) return StatusCode(400);
+            if (auth == string.Empty) return StatusCode(400);
 
-            if (_auths.Contains(authorization))
+            if (_auths.Contains(auth))
             {
-                _auths.Remove(authorization);
+                _auths.Remove(auth);
                 return StatusCode(204);
             } 
             else
