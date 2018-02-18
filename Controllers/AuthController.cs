@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContentAuthorizator.Controllers
 {
+    [Route("[controller]")]
     public class AuthController : Controller
     {
         private List<string> _auths;
@@ -15,7 +16,6 @@ namespace ContentAuthorizator.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]")]
         public IActionResult Index()
         {
             var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
@@ -26,7 +26,6 @@ namespace ContentAuthorizator.Controllers
         }
 
         [HttpPost]
-        [Route("[controller]")]
         public IActionResult Add()
         {
             var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
@@ -45,7 +44,6 @@ namespace ContentAuthorizator.Controllers
         }
 
         [HttpDelete]
-        [Route("[controller]")]
         public IActionResult Delete() 
         {
             var authorization = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
