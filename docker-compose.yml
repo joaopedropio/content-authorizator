@@ -2,14 +2,24 @@ version: '3'
 services:
   contentauthorizator:
     build: .
-    image: "content-authorizator"
+    image: content-authorizator
     ports:
-      - "5000:5000"
+      - 5000:5000
+    networks:
+      - socialnetwork
+      - contentauthorizathornetwork
   nginx:
-    image: "nginx"
+    image: nginx
     ports:
-      - "4000:80"
+      - 4000:80
     depends_on:
       - contentauthorizator
     volumes:
       - $PWD/nginx/:/etc/nginx/
+    networks:
+      - socialnetwork
+      - contentauthorizathornetwork
+networks:
+  socialnetwork:
+    external: true
+  contentauthorizathornetwork:
