@@ -18,7 +18,7 @@ namespace ContentAuthorizator.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var auth = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
+            var auth = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
             
             if (auth == string.Empty) return StatusCode(401);
 
@@ -28,7 +28,7 @@ namespace ContentAuthorizator.Controllers
         [HttpPost]
         public IActionResult Add()
         {
-            var auth = Request.Headers.FirstOrDefault(h => h.Key == "auth").Value.ToString();
+            var auth = Request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
 
             if (auth == string.Empty) return StatusCode(400);
 

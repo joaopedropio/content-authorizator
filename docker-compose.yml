@@ -1,12 +1,15 @@
 version: '3'
 services:
   contentauthorizator:
-    image: "joaopio/content-authorizator"
+    build: .
+    image: "content-authorizator"
     ports:
       - "5000:5000"
   nginx:
     image: "nginx"
     ports:
       - "4000:80"
+    depends_on:
+      - contentauthorizator
     volumes:
-      - /volumes/content-authorizator/ca-nginx/:/etc/nginx/
+      - $PWD/nginx/:/etc/nginx/

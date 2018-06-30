@@ -14,16 +14,11 @@ namespace ContentAuthorizator
     {
         public static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .Build();
-
-            var domain = configuration.GetValue<string>("API_DOMAIN") ?? "*";
-            var port = configuration.GetValue<string>("API_PORT") ?? "5000";
+            var config = new Configuration();
 
             var web = WebHost.CreateDefaultBuilder()
                 .UseStartup<Startup>()
-                .UseUrls("http://" + domain + ":" + port)
+                .UseUrls(config.URL)
                 .Build();
             web.Run();
         }
