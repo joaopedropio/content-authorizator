@@ -8,11 +8,7 @@ namespace ContentAuthorizator
        public string Domain { get; set; }
        public string URL { get; set; }
 
-       public Configuration() 
-            : this(new ConfigurationBuilder().AddEnvironmentVariables().Build())
-       {
-           
-       }
+       public Configuration() : this(new ConfigurationBuilder().AddEnvironmentVariables().Build()) { }
 
        public Configuration(IConfigurationRoot configuration)
        {
