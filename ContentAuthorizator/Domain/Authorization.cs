@@ -16,5 +16,21 @@ namespace ContentAuthorizator.Domain
             this.IPAdress = ipAdress;
             this.Token = token;
         }
+
+        public override bool Equals(object obj)
+        {
+            Authorization auth;
+            try
+            {
+                auth = (Authorization)obj;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return this.IPAdress.ToString() == auth.IPAdress.ToString() &&
+                   this.Token[0].ToString() == auth.Token[0].ToString();
+        }
     }
 }

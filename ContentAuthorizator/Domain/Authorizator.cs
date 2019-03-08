@@ -2,20 +2,21 @@
 {
     public class Authorizator : IAuthorizator
     {
-        private IAuthorizationRepository auths;
+        public IAuthorizationRepository Auths { get; set; }
         public Authorizator(IAuthorizationRepository auths)
         {
-            this.auths = auths;
+            this.Auths = auths;
         }
 
         public bool IsAuthorizationValid(IAuthorization auth)
         {
-            var storedAuth = auths.Retrieve(auth.IPAdress);
+            var storedAuth = Auths.Retrieve(auth.IPAdress);
 
             if(storedAuth == null)
                 return false;
 
-            return storedAuth == auth;
+            var result = storedAuth.Equals(auth);
+            return result;
         }
     }
 }

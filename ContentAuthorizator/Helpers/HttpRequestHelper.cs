@@ -24,12 +24,12 @@ namespace ContentAuthorizator.Helpers
 
         private static bool IsIPAdressValid(IPAddress ipAdress)
         {
-            throw new NotImplementedException();
+            return ipAdress != null;
         }
 
         private static bool IsTokenValid(StringValues token)
         {
-            throw new NotImplementedException();
+            return token.Count != 0;
         }
 
         private static IPAddress GetIPAdress(HttpRequest request)

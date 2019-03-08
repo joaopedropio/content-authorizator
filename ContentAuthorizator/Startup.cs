@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ContentAuthorizator.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ namespace ContentAuthorizator
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<List<string>>();
+            services.AddSingleton<IAuthorizationRepository>(new AuthorizationRepository());
             services.AddMvc();
         }
 
