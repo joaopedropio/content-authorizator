@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContentAuthorizator", "ContentAuthorizator.csproj", "{3EC75B94-9F96-4CCB-B06B-4D632C34D4F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContentAuthorizator", "ContentAuthorizator\ContentAuthorizator.csproj", "{212A000D-F575-4578-9C7A-905468E314EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3EC75B94-9F96-4CCB-B06B-4D632C34D4F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EC75B94-9F96-4CCB-B06B-4D632C34D4F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EC75B94-9F96-4CCB-B06B-4D632C34D4F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EC75B94-9F96-4CCB-B06B-4D632C34D4F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{212A000D-F575-4578-9C7A-905468E314EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{212A000D-F575-4578-9C7A-905468E314EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{212A000D-F575-4578-9C7A-905468E314EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{212A000D-F575-4578-9C7A-905468E314EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9F242C58-8FDA-45A1-9878-45293041909C}
+		SolutionGuid = {8F72342A-2207-4522-808F-D58154FB6812}
 	EndGlobalSection
 EndGlobal
