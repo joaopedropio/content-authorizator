@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using ContentAuthorizator.Domain;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
-namespace ContentAuthorizator.Domain
+namespace ContentAuthorizator.Repository
 {
     public class AuthorizationRepository : IAuthorizationRepository
     {
@@ -22,14 +22,19 @@ namespace ContentAuthorizator.Domain
             auths.Remove(authorization);
         }
 
-        public IAuthorization Retrieve(IPAddress ipAdress)
+        public IAuthorization RetrieveByIpAddress(string ipAdress)
         {
-            return auths.FirstOrDefault(a => a.IPAdress == ipAdress);
+            return auths.FirstOrDefault(a => a.IpAdress == ipAdress);
+        }
+
+        public IAuthorization RetrieveByUsername(string username)
+        {
+            return auths.FirstOrDefault(a => a.Username == username);
         }
 
         public void Store(IAuthorization authorization)
         {
-            var storedAuth = Retrieve(authorization.IPAdress);
+            var storedAuth = RetrieveByUsername(authorization.Username);
             if (storedAuth == null)
             {
                 auths.Add(authorization);
@@ -37,6 +42,7 @@ namespace ContentAuthorizator.Domain
             else
             {
                 var index = auths.IndexOf(storedAuth);
+                auths[index].IpAdress = authorization.IpAdress;
                 auths[index].Token = authorization.Token;
             }
         }

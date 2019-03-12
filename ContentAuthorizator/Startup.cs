@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ContentAuthorizator.Domain;
+﻿using ContentAuthorizator.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

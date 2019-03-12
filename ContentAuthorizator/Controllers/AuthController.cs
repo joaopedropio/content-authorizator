@@ -1,62 +1,32 @@
-﻿using ContentAuthorizator.Domain;
-using ContentAuthorizator.Helpers;
+﻿using ContentAuthorizator.Helpers;
+using ContentAuthorizator.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace ContentAuthorizator.Controllers
 {
-    [Route("[controller]")]
+    [Route("/auth")]
     public class AuthController : Controller
     {
-        private IAuthorizator authorizator;
+        private IAuthorizationRepository auths;
         public AuthController(IAuthorizationRepository auths)
         {
-            this.authorizator = new Authorizator(auths);
+            this.auths = auths;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             if (!HttpRequestHelper.IsRequestValid(Request))
-                return StatusCode(HttpStatusCode.Unauthorized.GetHashCode());
+                return new Json(HttpStatusCode.Unauthorized);
 
-            var authorization = HttpRequestHelper.GetAuthorization(Request);
-            
-            return StatusCode(authorizator.IsAuthorizationValid(authorization)
-                ? HttpStatusCode.OK.GetHashCode()
-                : HttpStatusCode.Forbidden.GetHashCode());
-        }
+            var ipAddress = HttpRequestHelper.GetIPAdress(Request);
+            var authorization = auths.RetrieveByIpAddress(ipAddress);
 
-        [HttpPost]
-        public IActionResult Add()
-        {
-            if (!HttpRequestHelper.IsRequestValid(Request))
-                return StatusCode(HttpStatusCode.BadRequest.GetHashCode());
+            if (ipAddress == null || !ipAddress.Equals(authorization?.IpAdress))
+                return new Json(HttpStatusCode.Forbidden);
 
-            var authorization = HttpRequestHelper.GetAuthorization(Request);
-            authorizator.Auths.Store(authorization);
-
-            return StatusCode(HttpStatusCode.OK.GetHashCode());
-        }
-
-        [HttpDelete]
-        public IActionResult Delete() 
-        {
-            if (!HttpRequestHelper.IsRequestValid(Request))
-                return StatusCode(HttpStatusCode.BadRequest.GetHashCode());
-
-
-            var authorization = HttpRequestHelper.GetAuthorization(Request);
-
-            if (authorizator.IsAuthorizationValid(authorization))
-            {
-                authorizator.Auths.Remove(authorization);
-                return StatusCode(HttpStatusCode.NoContent.GetHashCode());
-            }
-            else
-            {
-                return StatusCode(HttpStatusCode.NotFound.GetHashCode());
-            }
+            return new Json(HttpStatusCode.OK);
         }
     }
 }

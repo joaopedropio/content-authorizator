@@ -7,7 +7,7 @@ namespace ContentAuthorizator.Controllers
         [HttpGet]
         public string Index()
         {
-            return "Api no ar";
+            return "OK";
         }
     }
 }

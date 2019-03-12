@@ -1,19 +1,10 @@
-﻿using ContentAuthorizator.Domain;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.Linq;
-using System.Net;
 
 namespace ContentAuthorizator.Helpers
 {
     public static class HttpRequestHelper
     {
-        public static Domain.Authorization GetAuthorization(HttpRequest request)
-        {
-            return new Domain.Authorization(GetIPAdress(request), GetAuthorizatonHeader(request));
-        }
-
         public static bool IsRequestValid(HttpRequest request)
         {
             var token = GetAuthorizatonHeader(request);
@@ -22,24 +13,24 @@ namespace ContentAuthorizator.Helpers
             return IsIPAdressValid(ip) && IsTokenValid(token);
         }
 
-        private static bool IsIPAdressValid(IPAddress ipAdress)
+        private static bool IsIPAdressValid(string ipAdress)
         {
-            return ipAdress != null;
+            return !string.IsNullOrEmpty(ipAdress);
         }
 
-        private static bool IsTokenValid(StringValues token)
+        private static bool IsTokenValid(string token)
         {
-            return token.Count != 0;
+            return !string.IsNullOrEmpty(token);
         }
 
-        private static IPAddress GetIPAdress(HttpRequest request)
+        public static string GetIPAdress(HttpRequest request)
         {
-            return request.HttpContext.Connection.RemoteIpAddress;
+            return request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
 
-        private static StringValues GetAuthorizatonHeader(HttpRequest request)
+        private static string GetAuthorizatonHeader(HttpRequest request)
         {
-            return request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value;
+            return request.Headers.FirstOrDefault(h => h.Key == "Authorization").Value.ToString();
         }
     }
 }

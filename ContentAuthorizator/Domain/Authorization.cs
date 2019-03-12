@@ -1,36 +1,44 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using System;
-using System.Linq;
-using System.Net;
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Text;
 
 namespace ContentAuthorizator.Domain
 {
     public class Authorization : IAuthorization
     {
-        public StringValues Token { get; set; }
-        public IPAddress IPAdress { get; set; }
+        [JsonProperty(PropertyName = "username")]
+        public string Username { get; set; }
 
-        public Authorization(IPAddress ipAdress, StringValues token)
+        [JsonProperty(PropertyName = "token")]
+        public string Token { get; set; }
+
+        [JsonProperty(PropertyName = "ipadress")]
+        public string IpAdress { get; set; }
+
+        [JsonConstructor]
+        public Authorization(string username, string ipaddress, string token)
         {
-            this.IPAdress = ipAdress;
+            this.Username = username;
+            this.IpAdress = ipaddress;
             this.Token = token;
         }
 
-        public override bool Equals(object obj)
+        public static Authorization Parse(Stream body)
         {
-            Authorization auth;
-            try
-            {
-                auth = (Authorization)obj;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var json = ParseStream(body);
+            return JsonConvert.DeserializeObject<Authorization>(json);
+        }
 
-            return this.IPAdress.ToString() == auth.IPAdress.ToString() &&
-                   this.Token[0].ToString() == auth.Token[0].ToString();
+        private static string ParseStream(Stream stream)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+
+                var bytes = memoryStream.GetBuffer();
+
+                return Encoding.UTF8.GetString(bytes);
+            }
         }
     }
 }
