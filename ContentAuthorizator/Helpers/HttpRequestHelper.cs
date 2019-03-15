@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ContentAuthorizator.Helpers
@@ -26,11 +27,19 @@ namespace ContentAuthorizator.Helpers
 
         public static string GetIPAdress(HttpRequest request)
         {
-            // return request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-            var result = request.Headers.FirstOrDefault(h => h.Key == "X-Real-IP").Value.ToString();
-            Console.WriteLine(result);
+            var result = request.Headers.FirstOrDefault(h => h.Key == "UserIP").Value.ToString();
+            PrintHeaders(request);
             return result;
         }
+
+        public static void PrintHeaders(HttpRequest httpRequest)
+        {
+            for (int i = 0; i < httpRequest.Headers.Count; i++)
+            {
+                var heads = httpRequest.Headers;
+                Console.WriteLine(heads.Keys.ElementAt(i) + " = " + heads.Values.ElementAt(i).ToString());
+            }
+        } 
 
         private static string GetAuthorizatonHeader(HttpRequest request)
         {
