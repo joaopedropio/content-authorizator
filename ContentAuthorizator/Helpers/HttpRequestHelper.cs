@@ -33,7 +33,7 @@ namespace ContentAuthorizator.Helpers
 
         public static void PrintHeaders(HttpContext context)
         {
-            Console.WriteLine(context.Connection.RemoteIpAddress.ToString());
+            Console.WriteLine(context.Connection.RemoteIpAddress.MapToIPv4().ToString());
             for (int i = 0; i < context.Request.Headers.Count; i++)
             {
                 var heads = context.Request.Headers;
