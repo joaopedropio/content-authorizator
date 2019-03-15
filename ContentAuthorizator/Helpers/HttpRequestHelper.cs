@@ -27,7 +27,8 @@ namespace ContentAuthorizator.Helpers
 
         public static string GetIPAdress(HttpRequest request)
         {
-            var ip = request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            var ip = request.Headers.FirstOrDefault(h => h.Key == "X-Forwarded-For").Value.ToString();
+            
             for (int i = 0; i < request.Headers.Count; i++)
             {
                 var heads = request.Headers;
