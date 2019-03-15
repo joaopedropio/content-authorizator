@@ -27,19 +27,8 @@ namespace ContentAuthorizator.Helpers
 
         public static string GetIPAdress(HttpRequest request)
         {
-            var result = request.Headers.FirstOrDefault(h => h.Key == "UserIP").Value.ToString();
-            return result;
+            return request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
-
-        public static void PrintHeaders(HttpContext context)
-        {
-            Console.WriteLine(context.Connection.RemoteIpAddress.MapToIPv4().ToString());
-            for (int i = 0; i < context.Request.Headers.Count; i++)
-            {
-                var heads = context.Request.Headers;
-                Console.WriteLine(heads.Keys.ElementAt(i) + " = " + heads.Values.ElementAt(i).ToString());
-            }
-        } 
 
         private static string GetAuthorizatonHeader(HttpRequest request)
         {
