@@ -28,15 +28,15 @@ namespace ContentAuthorizator.Helpers
         public static string GetIPAdress(HttpRequest request)
         {
             var result = request.Headers.FirstOrDefault(h => h.Key == "UserIP").Value.ToString();
-            PrintHeaders(request);
             return result;
         }
 
-        public static void PrintHeaders(HttpRequest httpRequest)
+        public static void PrintHeaders(HttpContext context)
         {
-            for (int i = 0; i < httpRequest.Headers.Count; i++)
+            Console.WriteLine(context.Connection.RemoteIpAddress.ToString());
+            for (int i = 0; i < context.Request.Headers.Count; i++)
             {
-                var heads = httpRequest.Headers;
+                var heads = context.Request.Headers;
                 Console.WriteLine(heads.Keys.ElementAt(i) + " = " + heads.Values.ElementAt(i).ToString());
             }
         } 

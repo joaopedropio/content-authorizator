@@ -17,6 +17,7 @@ namespace ContentAuthorizator.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            HttpRequestHelper.PrintHeaders(HttpContext);
             if (!HttpRequestHelper.IsRequestValid(Request))
                 return new Json(HttpStatusCode.Unauthorized);
 
