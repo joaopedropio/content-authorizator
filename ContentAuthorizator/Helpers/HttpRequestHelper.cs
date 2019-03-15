@@ -27,7 +27,9 @@ namespace ContentAuthorizator.Helpers
 
         public static string GetIPAdress(HttpRequest request)
         {
-            return request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            var ip = request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            Console.WriteLine("Remote IP => " + ip);
+            return ip;
         }
 
         private static string GetAuthorizatonHeader(HttpRequest request)
