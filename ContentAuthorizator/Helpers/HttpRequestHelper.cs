@@ -28,6 +28,11 @@ namespace ContentAuthorizator.Helpers
         public static string GetIPAdress(HttpRequest request)
         {
             var ip = request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            for (int i = 0; i < request.Headers.Count; i++)
+            {
+                var heads = request.Headers;
+                Console.WriteLine(heads.Keys.ElementAt(i) + " = " + heads.Values.ElementAt(i).ToString());
+            }
             Console.WriteLine("Remote IP => " + ip);
             return ip;
         }
