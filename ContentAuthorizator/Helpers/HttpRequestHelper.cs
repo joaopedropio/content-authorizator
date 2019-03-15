@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 
 namespace ContentAuthorizator.Helpers
@@ -26,7 +27,9 @@ namespace ContentAuthorizator.Helpers
         public static string GetIPAdress(HttpRequest request)
         {
             // return request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-            return request.Headers.FirstOrDefault(h => h.Key == "X-Real-IP").Value.ToString();
+            var result = request.Headers.FirstOrDefault(h => h.Key == "X-Real-IP").Value.ToString();
+            Console.WriteLine(result);
+            return result;
         }
 
         private static string GetAuthorizatonHeader(HttpRequest request)
