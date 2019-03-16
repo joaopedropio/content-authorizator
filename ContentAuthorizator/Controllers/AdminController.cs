@@ -3,6 +3,7 @@ using System.Net;
 using ContentAuthorizator.Helpers;
 using ContentAuthorizator.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ContentAuthorizator.Controllers
 {
@@ -10,9 +11,12 @@ namespace ContentAuthorizator.Controllers
     public class AdminController : Controller
     {
         private IAuthorizationRepository auths;
-        public AdminController(IAuthorizationRepository auths)
+        private readonly ILogger<AdminController> logger;
+
+        public AdminController(IAuthorizationRepository auths, ILogger<AdminController> logger)
         {
             this.auths = auths;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -26,6 +30,7 @@ namespace ContentAuthorizator.Controllers
             }
             catch(Exception ex)
             {
+                logger.LogError(ex, "Unknow error while parsing or persisting authorization");
                 return new JsonError(new { ex.Message, ex.StackTrace }, HttpStatusCode.InternalServerError);
             }
         }
@@ -43,6 +48,7 @@ namespace ContentAuthorizator.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error while retrieving {username} user.", username);
                 return new JsonError(new { ex.Message, ex.StackTrace }, HttpStatusCode.InternalServerError);
             }
         }
@@ -59,6 +65,7 @@ namespace ContentAuthorizator.Controllers
             }
             catch(Exception ex)
             {
+                logger.LogError(ex, "Error while retrieving or removing authorization from {username} user.", username);
                 return new JsonError(new { ex.Message, ex.StackTrace }, HttpStatusCode.InternalServerError);
             }
         }

@@ -1,17 +1,32 @@
-﻿using ContentAuthorizator.Repository;
+﻿using System;
+using ContentAuthorizator.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Middlewares;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
 
 namespace ContentAuthorizator
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            var config = new Configuration();
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
+                .MinimumLevel.Debug()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(config.ElasticSearchURL))
+                {
+                    AutoRegisterTemplate = true
+                })
+                .CreateLogger();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -20,13 +35,15 @@ namespace ContentAuthorizator
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseMvcWithDefaultRoute();
         }
     }

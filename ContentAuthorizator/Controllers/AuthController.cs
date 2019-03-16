@@ -1,6 +1,7 @@
 ﻿using ContentAuthorizator.Helpers;
 using ContentAuthorizator.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Net;
 
 namespace ContentAuthorizator.Controllers
@@ -9,9 +10,12 @@ namespace ContentAuthorizator.Controllers
     public class AuthController : Controller
     {
         private IAuthorizationRepository auths;
-        public AuthController(IAuthorizationRepository auths)
+        private readonly ILogger<AuthController> logger;
+
+        public AuthController(IAuthorizationRepository auths, ILogger<AuthController> logger)
         {
             this.auths = auths;
+            this.logger = logger;
         }
 
         [HttpGet]
