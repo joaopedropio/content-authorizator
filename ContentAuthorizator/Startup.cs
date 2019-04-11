@@ -31,6 +31,14 @@ namespace ContentAuthorizator
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin()
+                       .AllowCredentials();
+            }));
+
             services.AddSingleton<IAuthorizationRepository>(new AuthorizationRepository());
             services.AddMvc();
         }
@@ -43,6 +51,8 @@ namespace ContentAuthorizator
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseMvcWithDefaultRoute();
         }
