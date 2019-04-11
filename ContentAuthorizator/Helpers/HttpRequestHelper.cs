@@ -27,7 +27,10 @@ namespace ContentAuthorizator.Helpers
 
         public static string GetIPAdress(HttpRequest request)
         {
-            var ip = request.Headers.FirstOrDefault(h => h.Key == "X-Forwarded-For").Value.ToString();
+            var ip = GetHeader(request, "X-Forwarded-For");
+
+            if (string.IsNullOrEmpty(ip))
+                ip = request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
             
             for (int i = 0; i < request.Headers.Count; i++)
             {
@@ -37,6 +40,9 @@ namespace ContentAuthorizator.Helpers
             Console.WriteLine("Remote IP => " + ip);
             return ip;
         }
+
+        public static string GetHeader(HttpRequest request, string header)
+            => request.Headers.FirstOrDefault(h => h.Key == header).Value.ToString();
 
         private static string GetAuthorizatonHeader(HttpRequest request)
         {

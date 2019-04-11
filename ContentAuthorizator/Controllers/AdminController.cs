@@ -19,6 +19,24 @@ namespace ContentAuthorizator.Controllers
             this.logger = logger;
         }
 
+        [Route("{username}")]
+        [HttpPost]
+        public IActionResult Add(string username)
+        {
+            try
+            {
+                var ipAddress = HttpRequestHelper.GetIPAdress(Request);
+                var auth = new Domain.Authorization(username, ipAddress);
+                auths.Store(auth);
+                return new Json(HttpStatusCode.Created);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unknow error while parsing or persisting authorization");
+                return new JsonError(new { ex.Message, ex.StackTrace }, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpPost]
         public IActionResult Add()
         {

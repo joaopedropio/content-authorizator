@@ -1,9 +1,10 @@
-FROM microsoft/aspnetcore-build:2.0 AS build-env
-WORKDIR /app
+FROM microsoft/dotnet:2.2-sdk-alpine AS build-env
+WORKDIR /build
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-env /build/ContentAuthorizator/out .
+EXPOSE 80
 ENTRYPOINT ["dotnet", "ContentAuthorizator.dll"]

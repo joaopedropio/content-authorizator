@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Text;
 
@@ -21,6 +22,13 @@ namespace ContentAuthorizator.Domain
             this.Username = username;
             this.IpAdress = ipaddress;
             this.Token = token;
+        }
+
+        public Authorization(string username, string ipaddress)
+        {
+            this.Username = username;
+            this.IpAdress = ipaddress;
+            this.Token = Guid.NewGuid().ToString("N");
         }
 
         public static Authorization Parse(Stream body)
